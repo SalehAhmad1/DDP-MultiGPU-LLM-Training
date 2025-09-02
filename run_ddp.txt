@@ -1,0 +1,23 @@
+CUDA_VISIBLE_DEVICES=0,1 \
+torchrun --nproc_per_node=2 DDP.py \
+  --data_csv ./agriculture_qa_csv.csv \
+  --output_dir ./checkpoints/tinyllama_qa \
+  --num_train_epochs 3 \
+  --per_device_train_batch_size 2 \
+  --gradient_accumulation_steps 8 \
+  --save_steps 10 \
+  --gradient_checkpointing
+
+pip install "torch>=2.1" "transformers>=4.41" datasets peft accelerate sentencepiece
+
+
+CUDA_VISIBLE_DEVICES=0 \
+torchrun --nproc_per_node=1 DDP.py \
+  --data_csv ./agriculture_qa_csv.csv \
+  --output_dir ./checkpoints/tinyllama_qa \
+  --num_train_epochs 3 \
+  --per_device_train_batch_size 2 \
+  --gradient_accumulation_steps 8 \
+  --save_steps 10 \
+  --gradient_checkpointing
+  --resume_from_checkpoint ./checkpoints/tinyllama_qa/v2/checkpoint-10

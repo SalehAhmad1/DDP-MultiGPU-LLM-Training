@@ -10,6 +10,8 @@ torchrun --nproc_per_node=2 DDP.py \
 
 pip install "torch>=2.1" "transformers>=4.41" datasets peft accelerate sentencepiece
 
+pip install torch transformers datasets peft accelerate sentencepiece -qq
+
 
 CUDA_VISIBLE_DEVICES=0 \
 torchrun --nproc_per_node=1 DDP.py \
